@@ -22,35 +22,8 @@ namespace api
             using(IServiceScope scope = host.Services.CreateScope())
             {
                 ApplicationDbContext context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-
-//                var ablDbEntry = context.Authors.Add(new Author { Name = "Abraham Lincoln", Quotes = new List<Quote>() });
-//                var aristotleDbEntry = context.Authors.Add(new Author { Name = "Aristotle", Quotes = new List<Quote>() });
-//
-//                ablDbEntry.Entity.Quotes.AddRange(new List<Quote>
-//                {
-//                    new Quote
-//                    {
-//                        Category = "inspiration",
-//                            Text = "Whatever you are, be a good one."
-//                    },
-//                    new Quote
-//                    {
-//                        Category = "books",
-//                            Text = "My Best Friend is a person who will give me a book I have not read."
-//                    }
-//                });
-//
-//                aristotleDbEntry.Entity.Quotes.Add(new Quote
-//                {
-//                    Category = "inspiration",
-//                        Text = "You will never do anything in this world without courage. It is the greatest quality of the mind next to honor."
-//                });
-                
-                
-                
-                
-                var audiDb = context.CarBrands.Add(new CarBrand {  Name = "Audi", Description = "Audi brand desciption" ,Models = new List<CarModel>() });
-                var seatDb = context.CarBrands.Add(new CarBrand { Name = "Seat", Description = "Seat brand description", Models = new List<CarModel>() });
+                var audiDb = context.CarBrands.Add(new CarBrand {  Name = "Audi", Description = "Audi brand desciption" ,Models = new List<CarModel>(), Dealers = new List<Dealer>()});
+                var seatDb = context.CarBrands.Add(new CarBrand { Name = "Seat", Description = "Seat brand description", Models = new List<CarModel>(), Dealers = new List<Dealer>()});
 
                 audiDb.Entity.Models.AddRange(new List<CarModel>
                 {
@@ -71,6 +44,12 @@ namespace api
                     Name = "Ateca",
                     Description = "Description seat Ateca"
                     
+                });
+                
+                audiDb.Entity.Dealers.AddRange(new List<Dealer>()
+                {
+                    new Dealer(){DealerName = "Dealer 1"},
+                    new Dealer(){DealerName = "Dealer 2"}
                 });
 
                 context.SaveChanges();

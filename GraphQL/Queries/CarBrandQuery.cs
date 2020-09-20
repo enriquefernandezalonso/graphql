@@ -11,29 +11,28 @@ namespace api.GraphQL.Queries
     {
         public CarBrandQuery(ApplicationDbContext db)
         {
-            Field<CarBrandType>(
-                nameof(CarBrand),
-                arguments : new QueryArguments(new QueryArgument<IdGraphType> { Name = "id", Description = "The Id of the Brand." }),
+            Field<ListGraphType<CarBrandType>>(
+                "AllBrands",
+                //arguments : new QueryArguments(new QueryArgument<IdGraphType> { Name = "id", Description = "The Id of the Brand." }),
                 resolve : context =>
                 {
-                    var id = context.GetArgument<int>("id");
-                    var author = db
-                        .CarBrands
-                        .Include(a => a.Models)
-                        .FirstOrDefault(i => i.Id == id);
-                    return author;
+                   
+                    var authors = db.CarBrands.Include(a => a.Models).Include(d => d.Dealers);
+                    return authors;
+                   
                 });
 
             Field<ListGraphType<CarBrandType>>(
-                $"{nameof(CarBrand)}s",
-                arguments : new QueryArguments(new QueryArgument<IdGraphType> { Name = "name", Description = "The Id of the Brand." }),
+                "BrandByName",
+                arguments : new QueryArguments(new QueryArgument<StringGraphType> { Name = "name", Description = "The name of the Brand." }),
                 resolve : context =>
                 {
                     var name = context.GetArgument<string>("name");
                     
                     if(name != null)
                     {
-                        var authors = db.CarBrands.Include(q => q.Models).Where(a => a.Name == name).ToList();
+                        var authors = db.CarBrands.Include(q => q.Models)
+                            .Where(a => a.Name == name).Include(d => d.Dealers).ToList();
 
                         return authors;
                     }
@@ -44,6 +43,23 @@ namespace api.GraphQL.Queries
                     }
                     
                 });
+                
+            Field<ListGraphType<CarModelType>>(
+                $"AllModelsByBrand",
+                arguments : new QueryArguments(new QueryArgument<NonNullGraphType<IdGraphType>> { Name = "brandId", Description = "The Id of the Brand." }),
+                resolve : context =>
+                {
+                    var brandId = context.GetArgument<int>("brandId");
+
+
+                    var carBrands = db.CarBrands.Include(q => q.Models);
+
+                    var brand = carBrands.FirstOrDefault(b => b.Id == brandId);
+
+                    return brand.Models;
+
+                });
+
         }
     }
 }

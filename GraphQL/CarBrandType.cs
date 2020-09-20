@@ -12,6 +12,7 @@ namespace api.GraphQL
             Field(x => x.Name, nullable: true).Description("The name of the car brand.");
             Field(x => x.Description, nullable: true).Description("Description of the car brand");
             Field(x => x.Models,nullable: true, type : typeof(ListGraphType<CarModelType>)).Description("Brand's models");
+            Field(x => x.Dealers,nullable: true, type : typeof(ListGraphType<DealerType>)).Description("Brand's dealers");
         }
     }
 }
