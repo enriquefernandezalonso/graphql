@@ -31,7 +31,7 @@ namespace api
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddDbContext<ApplicationDbContext>(context =>
             {
-                context.UseInMemoryDatabase("QuoTSDb");
+                context.UseInMemoryDatabase("CarBrandBBDD");
             });
         }
 

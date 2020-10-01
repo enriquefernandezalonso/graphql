@@ -1,4 +1,4 @@
-using api.Infrastructure.Models.temporal;
+using api.Infrastructure.Models;
 using GraphQL.Types;
 
 namespace api.GraphQL

@@ -1,7 +1,7 @@
 using System.Linq;
 using Api.Database;
 using api.GraphQL.InputTypes;
-using api.Infrastructure.Models.temporal;
+using api.Infrastructure.Models;
 using GraphQL.Types;
 using Microsoft.EntityFrameworkCore;
 
@@ -66,12 +66,9 @@ namespace api.GraphQL.Mutations
                 {
                     var id = context.GetArgument<int>("id");
                     var carBrand = db.CarBrands.FirstOrDefault(brand => brand.Id == id);
-                    if (carBrand != null)
-                    {
-                        db.CarBrands.Remove(carBrand);
-                        db.SaveChanges();
-                    }
-                    
+                    if (carBrand == null) return carBrand;
+                    db.CarBrands.Remove(carBrand);
+                    db.SaveChanges();
                     return carBrand;
                 });
         }

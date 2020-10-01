@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using api.Infrastructure.Models.temporal;
+using api.Infrastructure.Models;
 
 namespace api.GraphQL.InputTypes
 {

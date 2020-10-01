@@ -1,4 +1,4 @@
-namespace api.Infrastructure.Models.temporal
+namespace api.Infrastructure.Models
 {
     public class CarModel
     {

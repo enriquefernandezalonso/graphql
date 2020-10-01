@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using api.Infrastructure.Models;
 using Api.Database;
-using api.Infrastructure.Models.temporal;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -18,11 +17,11 @@ namespace api
     {
         public static void Main(string[] args)
         {
-            IWebHost host = CreateWebHostBuilder(args).Build();
-            using(IServiceScope scope = host.Services.CreateScope())
+            var host = CreateWebHostBuilder(args).Build();
+            using(var scope = host.Services.CreateScope())
             {
-                ApplicationDbContext context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-                var audiDb = context.CarBrands.Add(new CarBrand {  Name = "Audi", Description = "Audi brand desciption" ,Models = new List<CarModel>(), Dealers = new List<Dealer>()});
+                var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                var audiDb = context.CarBrands.Add(new CarBrand {  Name = "Audi", Description = "Audi brand description" ,Models = new List<CarModel>(), Dealers = new List<Dealer>()});
                 var seatDb = context.CarBrands.Add(new CarBrand { Name = "Seat", Description = "Seat brand description", Models = new List<CarModel>(), Dealers = new List<Dealer>()});
 
                 audiDb.Entity.Models.AddRange(new List<CarModel>
@@ -35,21 +34,23 @@ namespace api
                     new CarModel
                     {
                         Name = "A4",
-                        Description = "DEscription A4"
+                        Description = "Description A4"
                     }
-                });
-
-                seatDb.Entity.Models.Add(new CarModel
-                {
-                    Name = "Ateca",
-                    Description = "Description seat Ateca"
-                    
                 });
                 
                 audiDb.Entity.Dealers.AddRange(new List<Dealer>()
                 {
-                    new Dealer(){DealerName = "Dealer 1"},
-                    new Dealer(){DealerName = "Dealer 2"}
+                    new Dealer
+                    {
+                        DealerName = "Dealer 1", 
+                        Address = "Address dealer 1"
+                    },
+                    new Dealer
+                    {
+                        DealerName = "Dealer 2",
+                        Address = "Address dealer 2"
+                        
+                    }
                 });
 
                 context.SaveChanges();
