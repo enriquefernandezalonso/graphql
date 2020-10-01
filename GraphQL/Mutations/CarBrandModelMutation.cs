@@ -61,7 +61,7 @@ namespace api.GraphQL.Mutations
             
             Field<CarBrandType>(
                 $"deleteCarBrand",
-                arguments : new QueryArguments(new QueryArgument<IdGraphType> { Name = "id", Description = "The Id of the Brand." }),
+                arguments : new QueryArguments(new QueryArgument<NonNullGraphType<IdGraphType>> { Name = "id", Description = "The Id of the Brand." }),
                 resolve: context =>
                 {
                     var id = context.GetArgument<int>("id");
