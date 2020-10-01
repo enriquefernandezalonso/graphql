@@ -9,7 +9,7 @@ namespace api.GraphQL.InputTypes
             Name = $"{nameof(CarBrandInput)}";
             Field(x => x.Name).Description("Brand name");
             Field(x => x.Description).Description("Brand identifier");
-            Field(x => x.Models, type : typeof(ListGraphType<CarModelInputType>)).Description("Brand's models");
+            Field(x => x.Models, type : typeof(ListGraphType<CarModelInputType>)).Description("Brand models");
         }
     }
 }
